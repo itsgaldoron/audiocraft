@@ -26,3 +26,10 @@ torchvision==0.16.0
 torchtext==0.16.0
 pesq
 pystoi
+
+# Galdo Fix: added
+hf-transfer>=0.1.6
+wandb
+pytorch-lightning
+tensorboard
+fire
