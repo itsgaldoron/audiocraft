@@ -1,0 +1,67 @@
+# config/solver/musicgen/musicgen_lightning.yaml
+# @package __global__
+
+defaults:
+  - musicgen/default
+  - /model: lm/musicgen_lm
+  - override /dset: audio/example
+  - _self_
+
+solver: musicgen
+lm_model: transformer_lm
+
+autocast: true
+autocast_dtype: float16
+
+compression_model_checkpoint: //pretrained/facebook/encodec_32khz
+
+channels: 2
+sample_rate: 32000
+
+dataset:
+  batch_size: 2
+  num_workers: null
+  segment_duration: 10
+  sample_on_weight: false
+  sample_on_duration: false
+
+generate:
+  lm:
+    use_sampling: true
+    top_k: 250
+    top_p: 0.0
+
+optim:
+  epochs: 500
+  optimizer: dadam
+  lr: 1
+  ema:
+    use: true
+    updates: 10
+    device: cuda
+
+logging:
+  log_tensorboard: true
+  log_wandb: true
+
+schedule:
+  lr_scheduler: cosine
+  cosine:
+    warmup: 75
+    lr_min_ratio: 0.0
+    cycle_length: 1.0
+
+continue_from: //pretrained/facebook/musicgen-stereo-small
+
+model/lm/model_scale: small
+
+conditioner: text2music
+
+interleave_stereo_codebooks:
+  use: true
+
+fsdp:
+  use: false
+
+wandb:
+  project: audiocraft-48k-stereo-lightning
