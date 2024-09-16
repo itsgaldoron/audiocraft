@@ -367,7 +367,7 @@ def get_audio_datasets(cfg: omegaconf.DictConfig,
             collate_fn=dataset.collater if return_info else None,
             shuffle=shuffle,
             # Galdo Fix: pin_memory=True added
-            pin_memory=True
+            # pin_memory=True
         )
         dataloaders[split] = loader
 
